@@ -21,7 +21,13 @@ class User(models.Model):
 
 
 class Room(models.Model):
-    pass
+    master = models.ForeignKey(User, verbose_name="房主")
+    users = models.ManyToManyField(User, verbose_name="用户")
+    create_time = models.DateTimeField(verbose_name="创建时间")
+
+    class Meta:
+        verbose_name = '房间'
+        verbose_name_plural = verbose_name
 
 
 class Message(models.Model):
@@ -39,5 +45,3 @@ class Message(models.Model):
 
     def __str__(self):
         return self.content
-
-
