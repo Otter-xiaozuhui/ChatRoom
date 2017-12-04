@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from ChatRoom import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^PageLogin/', views.Page_Login, name='Pagelogin'),
+    url(r'^Login/', views.login, name='Login'),
 ]
