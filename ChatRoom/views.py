@@ -18,8 +18,8 @@ def login(request):
     if user:
         password = make_password(password)
         if password == user.password:
-            return
+            return redirect('PageLogin/')
         else:
-            return
+            return redirect('PageLogin/')
     else:
-        return
+        return redirect('PageLogin/')
