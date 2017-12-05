@@ -21,4 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^PageLogin/', views.Page_Login, name='Pagelogin'),
     url(r'^Login/', views.login, name='Login'),
+    url(r'^PageRegister/', views.Page_Register, name='PageRegister'),
+    url(r'^Register/', views.register, name='Register'),
+    url(r'^Logout/', views.logout, name='Logout'),
 ]

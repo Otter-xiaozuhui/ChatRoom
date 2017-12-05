@@ -1,18 +1,15 @@
-{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>登陆</title>
+    <title>注册</title>
 </head>
 <body>
 <form>
     用户名：<input type="text" name="username"><br>
     密码：<input type="password" name="password"><br>
+    重复密码：<input type="password" name="repassword"><br>
     <input type="submit" value="登陆">&nbsp;&nbsp;<input type="reset" value="清空"><br>
 </form>
-
-<a href="{% url 'PageRegister' %}">去注册</a>
-
 </body>
 </html>
