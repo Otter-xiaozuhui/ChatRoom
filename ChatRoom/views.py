@@ -16,8 +16,7 @@ def login(request):
         return redirect('PageLogin/')
     user = User.objects.get(username=username)
     if user:
-        password = make_password(password)
-        if password == user.password:
+        if check_password(password, user.password):
             return redirect('PageLogin/')
         else:
             return redirect('PageLogin/')
