@@ -5,6 +5,7 @@ class User(models.Model):
     username = models.CharField(max_length=20, verbose_name="用户姓名")
     password = models.CharField(max_length=120, verbose_name="用户密码")
     login_time = models.DateTimeField(verbose_name="最后登陆时间")
+    active_status = models.IntegerField(verbose_name="活动状态", default=0, choices=((1, "在线"), (-1, "繁忙"), (0, "离线")))
 
     class Meta:
         verbose_name = '用户'
@@ -15,8 +16,8 @@ class User(models.Model):
 
 
 class Room(models.Model):
-    master = models.ForeignKey(User, verbose_name="房主")
-    users = models.ManyToManyField(User, verbose_name="用户")
+    master = models.ForeignKey(User, verbose_name="房主", related_name='master')
+    users = models.ManyToManyField(User, verbose_name="用户", related_name='chaters')
     create_time = models.DateTimeField(verbose_name="创建时间")
 
     class Meta:
