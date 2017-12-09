@@ -2,7 +2,7 @@ from django.db import models
 
 
 class User(models.Model):
-    username = models.CharField(max_length=20, verbose_name="用户姓名")
+    username = models.CharField(max_length=20, verbose_name="用户姓名", unique=True)
     password = models.CharField(max_length=120, verbose_name="用户密码")
     login_time = models.DateTimeField(verbose_name="最后登陆时间")
     active_status = models.IntegerField(verbose_name="活动状态", default=0, choices=((1, "在线"), (-1, "繁忙"), (0, "离线")))

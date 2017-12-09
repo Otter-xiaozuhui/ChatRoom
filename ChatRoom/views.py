@@ -37,21 +37,46 @@ def login(request):
 def register(request):
     username = request.POST.get("username")
     if not username:
-        return redirect('PageLogin/')
+        return redirect('PageRegister/?message="用户名不能为空"')
     password = request.POST.get("password")
     if not password:
-        return redirect('PageLogin/')
+        return redirect('PageRegister/?message="密码不能为空"')
     repassword = request.POST.get("repassword")
     if not repassword:
-        return redirect('PageLogin/')
+        return redirect('PageRegister/?message="重复密码不能为空"')
+
+    t_user = models.User.objects.get(username=username)
+    if t_user:
+        return redirect('PageRegister/?message="该用户名已被注册s"')
 
     if password == repassword:
         user = models.User()
         user.username = username
         user.password = make_password(password)
+        user.save()
+
+        return redirect('PageLogin/?message="注册成功，请重新登陆"')
+    else:
+        return redirect('PageRegister/?message="重复密码错误"')
 
 
 def logout(request):
     username = request.session.get("username")
     if not username:
-        pass
+        redirect('PageLogin/')
+
+    user = models.User.objects.get(username=username)
+    if user:
+        user.active_status = 0
+        user.save()
+        del request.session["username"]
+
+        return redirect('PageLogin/')
+
+
+def Page_Cschat(request):
+    username = request.session.get("username")
+    if not username:
+        redirect('PageLogin/')
+
+

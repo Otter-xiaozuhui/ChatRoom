@@ -1,4 +1,4 @@
-from . import consumers
+from ChatRoom import consumers
 
 channel_routing = {
     'websocket.connect': consumers.ws_connect,

@@ -24,4 +24,7 @@ urlpatterns = [
     url(r'^PageRegister/', views.Page_Register, name='PageRegister'),
     url(r'^Register/', views.register, name='Register'),
     url(r'^Logout/', views.logout, name='Logout'),
+    url(r'^Cschat/', views.Page_Cschat, name='Cschat'),
+    url(r'^', views.Page_Login),
+
 ]
