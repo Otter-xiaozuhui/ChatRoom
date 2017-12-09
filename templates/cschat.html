@@ -6,10 +6,20 @@
 </head>
 <body>
 聊天室：
-<from></from>
+<from>
+    {% for chatroom in chatrooms %}
+        <input type="radio" name="chatroom"
+               value="房间[{{ chatroom.room_uid }}]:{{ chatroom.room_name }}:[{{ chatroom.master }}]">
+    {% endfor %}
+</from>
+<br><a href="{% url 'CreateChatroom' %}">创建一个聊天室</a><br>
 <hr>
 在线人员：
-<from></from>
+<from>
+    {% for user in users %}
+        <input type="checkbox" name="user" value="{{ user.username }}">{{ user.username }}
+    {% endfor %}
+</from>
 <hr>
 </body>
 </html>

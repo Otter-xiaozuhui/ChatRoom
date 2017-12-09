@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ChatRoom',
+    'chatroom',
     'channels',
 ]
 
@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'ChatRoom.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'chatroom',
+        'USER': 'xiaozuhui',
+        'PASSWORD': 'xzh921128',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -122,6 +126,6 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
         },
-        "ROUTING": "ChatRoom.routing.channel_routing",
+        "ROUTING": "chatroom.routing.channel_routing",
     },
 }

@@ -4,7 +4,7 @@ from django.db import models
 class User(models.Model):
     username = models.CharField(max_length=20, verbose_name="用户姓名", unique=True)
     password = models.CharField(max_length=120, verbose_name="用户密码")
-    login_time = models.DateTimeField(verbose_name="最后登陆时间")
+    login_time = models.DateTimeField(verbose_name="最后登陆时间", null=True)
     active_status = models.IntegerField(verbose_name="活动状态", default=0, choices=((1, "在线"), (-1, "繁忙"), (0, "离线")))
 
     class Meta:
@@ -16,13 +16,19 @@ class User(models.Model):
 
 
 class Room(models.Model):
+    room_name = models.CharField(max_length=20, verbose_name="房间名称", default="未命名")
+    room_uid = models.IntegerField(verbose_name="房间号", default=0)
     master = models.ForeignKey(User, verbose_name="房主", related_name='master')
     users = models.ManyToManyField(User, verbose_name="用户", related_name='chaters')
     create_time = models.DateTimeField(verbose_name="创建时间")
+    active = models.BooleanField(verbose_name="活跃状态", default=True)
 
     class Meta:
         verbose_name = '房间'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.room_name
 
 
 class Message(models.Model):

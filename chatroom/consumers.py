@@ -1,6 +1,4 @@
-from channels import Group
 from channels.sessions import channel_session
-from ChatRoom.models import *
 
 
 @channel_session
