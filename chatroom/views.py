@@ -16,14 +16,11 @@ def Page_Register(request):
 
 
 def login(request):
-    print(1)
     username = request.POST.get("username")
     if not username:
-        print("lost username")
         return redirect('/PageLogin/')
     password = request.POST.get("password")
     if not password:
-        print("lost password")
         return redirect('/PageLogin/')
     user = models.User.objects.get(username=username)
     if user:
@@ -32,7 +29,6 @@ def login(request):
             user.active_status = 1
             user.login_time = datetime.datetime.now()
             user.save()
-            print("SUCCESS")
             print(user)
             return redirect('/PageCschat/')
         else:
@@ -113,9 +109,9 @@ def create_chatroom(request):
 
         chat_room.room_name = roomname
         chat_room.master = models.User.objects.get(username=username)
-        import binascii
-        import uuid
-        chat_room.room_uid = str(binascii.b2a_hex(roomname.encode('utf-8'))) + str(uuid.uuid1())
+        # import binascii
+        # import uuid
+        # chat_room.room_uid = str(binascii.b2a_hex(roomname.encode('utf-8'))) + str(uuid.uuid1())
 
         if password:
             chat_room.room_password = password
@@ -136,6 +132,10 @@ def add_user_into_room(request):
 
 
 def Page_ChatRoom(request, cn):
+    username = request.session.get("username")
+    if not username:
+        redirect('/PageLogin/')
+
     room = models.Room.objects.filter(id=cn)
 
     if not room:
@@ -149,5 +149,31 @@ def Page_ChatRoom(request, cn):
 
 
 def into_room(request):
-    pass
     # 这边要判断，是否房主进入、是否有密码、是否有权限（是否是房间用户）
+    username = request.session.get("username")
+    if not username:
+        print(1)
+        redirect('/PageLogin/')
+    # 密码以后再认证
+
+    room_id = request.POST.get("chatroom")
+    print(room_id)
+
+    room = models.Room.objects.filter(id=room_id)
+
+    print(room)
+    if not room:
+        return redirect('/PageCschat/')
+
+    room = room[0]
+
+    if not room.active:
+        return redirect('/PageCschat/')
+
+    if room.master.username == username:
+        return redirect('/PageChatRoom/' + room_id)
+
+    if username in [u.username for u in room.users]:
+        return redirect('/PageChatRoom/' + room_id)
+
+    return redirect('/PageCschat/')
