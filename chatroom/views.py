@@ -93,6 +93,61 @@ def Page_Cschat(request):
     return render(request, 'cschat.html', locals())
 
 
-
 def create_chatroom(request):
+    username = request.session.get("username")
+    if not username:
+        redirect('/PageLogin/')
+
+    roomname = request.POST.get("room_name")
+    password = request.POST.get("room_password")
+
+    try:
+        chat_room = models.Room()
+        if not roomname:
+            print("no room name")
+            return redirect('/PageCschat/')
+
+        if models.Room.objects.filter(room_name=roomname).count() > 0:
+            print("name is too much")
+            return redirect('/PageCschat/')
+
+        chat_room.room_name = roomname
+        chat_room.master = models.User.objects.get(username=username)
+        import binascii
+        import uuid
+        chat_room.room_uid = str(binascii.b2a_hex(roomname.encode('utf-8'))) + str(uuid.uuid1())
+
+        if password:
+            chat_room.room_password = password
+
+        chat_room.create_time = datetime.datetime.now()
+
+        chat_room.save()
+
+        return redirect('/PageChatRoom/')
+
+    except Exception as err:
+        print(err)
+        return redirect('/PageCschat/')
+
+
+def add_user_into_room(request):
     pass
+
+
+def Page_ChatRoom(request, cn):
+    room = models.Room.objects.filter(id=cn)
+
+    if not room:
+        return redirect('/PageCschat/')
+
+    room = room[0]
+
+    print(room)
+
+    return render(request, 'chatroom.html', locals())
+
+
+def into_room(request):
+    pass
+    # 这边要判断，是否房主进入、是否有密码、是否有权限（是否是房间用户）

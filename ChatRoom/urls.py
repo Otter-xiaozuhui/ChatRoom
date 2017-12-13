@@ -27,6 +27,9 @@ urlpatterns = [
     url(r'^Logout/', views.logout, name='Logout'),
     url(r'^PageCschat/', views.Page_Cschat, name='PageCschat'),
     url(r'^CreateChatroom/', views.create_chatroom, name='CreateChatroom'),
+    url(r'^AddUserIntoRoom/', views.add_user_into_room, name='AddUserIntoRoom'),
+    url(r'^PageChatRoom/(?P<cn>\w+)', views.Page_ChatRoom, name='PageChatRoom'),
+    url(r'^IntoRoom/', views.into_room, name='IntoRoom'),
     url(r'^', views.Page_Login),
 
 ]

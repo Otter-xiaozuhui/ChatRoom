@@ -6,13 +6,24 @@
 </head>
 <body>
 聊天室：
-<from>
+<form action="{% url 'IntoRoom' %}" method="post">
+    {% csrf_token %}
     {% for chatroom in chatrooms %}
         <input type="radio" name="chatroom"
-               value="房间[{{ chatroom.room_uid }}]:{{ chatroom.room_name }}:[{{ chatroom.master }}]">
+               value="{{ chatroom.id }}">房间[{{ chatroom.room_name }}][{{ chatroom.master }}]
     {% endfor %}
-</from>
-<br><a href="{% url 'CreateChatroom' %}">创建一个聊天室</a><br>
+    <br>
+    <input type="submit" value="进入房间">
+</form>
+<hr>
+<br>
+<form action="{% url 'CreateChatroom' %}" method="POST">
+    {% csrf_token %}
+    房间名称：<input type="text" name="room_name" placeholder="请输入房间名称"><br>
+    房间密码：<input type="password" name="room_password" placeholder="可以为空"><br>
+    <input type="submit" value="创建一个聊天室">
+</form>
+<br>
 <hr>
 在线人员：
 <from>
