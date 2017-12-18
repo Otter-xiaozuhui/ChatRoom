@@ -1,10 +1,21 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>聊天室 - [房主：{{ room.master }} ||房间名： {{ room.room_name }}]</title>
+    <script type="text/javascript" src="{% static jquery-3.2.1.min.js %}"></script>
+    <script type="text/javascript">
+
+    </script>
 </head>
 <body>
-
+<h3>{{ room.room_name }}</h3>
+<hr>
+<div class="messages"></div>
+<hr>
+<div class="send">
+    <form></form>
+</div>
 </body>
 </html>

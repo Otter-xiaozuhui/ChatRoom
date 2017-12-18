@@ -143,7 +143,7 @@ def Page_ChatRoom(request, cn):
 
     room = room[0]
 
-    print(room)
+    messages = models.Message.objects.get(room=room)
 
     return render(request, 'chatroom.html', locals())
 
