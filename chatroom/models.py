@@ -16,8 +16,8 @@ class User(models.Model):
 
 
 class Room(models.Model):
-    room_name = models.CharField(max_length=20, verbose_name="房间名称", default="未命名")
-    master = models.ForeignKey(User, verbose_name="房主", related_name='master',on_delete=models.DO_NOTHING)
+    room_name = models.CharField(max_length=20, verbose_name="房间名称", unique=True)
+    master = models.ForeignKey(User, verbose_name="房主", related_name='master', on_delete=models.DO_NOTHING)
     users = models.ManyToManyField(User, verbose_name="用户", related_name='chaters')
     create_time = models.DateTimeField(verbose_name="创建时间")
     room_password = models.CharField(verbose_name="房间密码", max_length=120, null=True)

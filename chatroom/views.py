@@ -98,7 +98,6 @@ def create_chatroom(request):
     password = request.POST.get("room_password")
 
     try:
-        chat_room = models.Room()
         if not roomname:
             print("no room name")
             return redirect('/PageCschat/')
@@ -107,11 +106,10 @@ def create_chatroom(request):
             print("name is too much")
             return redirect('/PageCschat/')
 
+        chat_room = models.Room()
+
         chat_room.room_name = roomname
         chat_room.master = models.User.objects.get(username=username)
-        # import binascii
-        # import uuid
-        # chat_room.room_uid = str(binascii.b2a_hex(roomname.encode('utf-8'))) + str(uuid.uuid1())
 
         if password:
             chat_room.room_password = password
@@ -143,7 +141,7 @@ def Page_ChatRoom(request, cn):
 
     room = room[0]
 
-    messages = models.Message.objects.get(room=room)
+    messages = models.Message.objects.filter(room=room)
 
     return render(request, 'chatroom.html', locals())
 

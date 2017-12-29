@@ -3,22 +3,53 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>聊天室 - [房主：{{ room.master }} ||房间名： {{ room.room_name }}]</title>
-    <script type="text/javascript" src="{% static jquery-3.2.1.min.js %}"></script>
+    <title>聊天室 - [房主：{{ room.master }} |房间名： {{ room.room_name }}]</title>
+    <script type="text/javascript" src="{% static 'jquery-3.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'reconnecting-websocket.min.js' %}"></script>
     <script type="text/javascript">
+        var chatsock;
 
+        $(function () {
+            var room_name = $("#room_name").text();
+            chatsock = new ReconnectingWebSocket('ws://localhost:8000/ChatRoom/' + room_name + '/');
+            chatsock.onmessage = function (message) {
+                console.log("---->" + message.data);
+                data = message.data;
+                $(".message").append(
+                    "<div><p>" + data["send_time"] + "</p><p>" + data["from_user"] + "---->" + data["content"] + "</p><p>---------------------------------------------------</p></div>"
+                )
+            }
+        });
+
+        function sendWebSocket() {
+            var dict = {
+                "content": $("#content").val(),
+                "username": $("#username").val()
+            };
+            chatsock.send(JSON.stringify(dict));
+        }
     </script>
 </head>
 <body>
-<h3>{{ room.room_name }}</h3>
+<h3><p id="room_name">{{ room.room_name }}</p></h3>
+
 <hr>
-<div class="messages"></div>
+<div class="messages">
+    {% for message in messages %}
+        <div>
+            <p>{{ message.send_time }}</p>
+            <p>{{ message.from_user }} ----> {{ message.content }}</p>
+            <p>---------------------------------------------------</p>
+        </div>
+    {% endfor %}
+</div>
 <hr>
+<form>
+    <input id="username" type="hidden" value="{{ username }}">
+</form>
 <div class="send">
-    <form id="send_message">
-        <button>发送</button>
-    </form>
-    <textarea cols="50" rows="4" name="content" form="send_message" placeholder="请输入点什么吧"></textarea>
+    <textarea cols="50" rows="4" id="content" placeholder="请输入点什么吧"></textarea><br>
+    <button id="send_btn" onclick="sendWebSocket()">发送</button>
 </div>
 </body>
 </html>
