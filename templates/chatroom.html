@@ -13,6 +13,7 @@
             var room_name = $("#room_name").text();
             chatsock = new ReconnectingWebSocket('ws://localhost:8000/ChatRoom/' + room_name + '/');
             chatsock.onmessage = function (message) {
+                console.log(message);
                 console.log("---->" + message.data);
                 data = message.data;
                 $(".message").append(
@@ -48,7 +49,7 @@
     <input id="username" type="hidden" value="{{ username }}">
 </form>
 <div class="send">
-    <textarea cols="50" rows="4" id="content" placeholder="请输入点什么吧"></textarea><br>
+    <textarea cols="50" rows="4" id="content" placeholder="请输入点什么吧"></textarea><br><br>
     <button id="send_btn" onclick="sendWebSocket()">发送</button>
 </div>
 </body>

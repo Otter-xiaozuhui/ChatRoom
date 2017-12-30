@@ -7,7 +7,7 @@ import datetime
 
 @channel_session
 def ws_connect(message, room_name):
-    message.reply_channel.send({"text": "連接成功"})
+    # message.reply_channel.send({"text": "連接成功"})
     Group(room_name).add(message.reply_channel)
 
 
@@ -45,14 +45,20 @@ def ws_receive(message, room_name):
 
     message.save()
 
-    Group(room_name).send({
+    d = {
         "send_time": str(message.send_time),
         "from_user": username,
         "content": content,
+    }
+
+    print(d)
+
+    Group(room_name).send({
+        "text": json.dumps(d)
     })
 
 
 @channel_session
 def ws_disconnect(message, room_name):
-    message.reply_channel.send({"text": "連接斷開"})
+    # message.reply_channel.send({"text": "連接斷開"})
     Group(room_name).discard(message.reply_channel)
